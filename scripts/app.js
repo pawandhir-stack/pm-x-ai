@@ -310,7 +310,7 @@ const state = {
 
 async function loadData() {
   try {
-    const res = await fetch("./data/content.json");
+    const res = await fetch("./data/content.json", { cache: "no-cache" });
     if (res.ok) {
       state.data = await res.json();
     }
