@@ -55,6 +55,29 @@ const FALLBACK_DATA = {
       ]
     },
     {
+      id: "prompting-vs-rag-vs-finetuning-playbook",
+      title: "Prompting vs. RAG vs. Fine-Tuning: A Product Manager's Architecture Playbook",
+      excerpt: "How to avoid the #1 costly mistake in AI product development: fine-tuning a model when you actually needed Retrieval-Augmented Generation (or a better prompt + eval loop).",
+      pillar: "best-practices",
+      pillarLabel: "Best Practices",
+      format: "article",
+      formatLabel: "Interactive Guide + Playbook",
+      date: "Nov 2026",
+      readTime: "8 min read",
+      featured: false,
+      crossPosted: ["LinkedIn", "Substack", "GitHub"],
+      tags: ["RAG", "Fine-Tuning", "Architecture", "Unit Economics"],
+      body: [
+        "One of the highest-leverage decisions an AI Product Manager makes with engineering is choosing the right adaptation pattern: In-Context Prompting, Retrieval-Augmented Generation (RAG), or Fine-Tuning.",
+        "### The Golden Rule: RAG is for Facts, Fine-Tuning is for Form",
+        "• Use Prompt Engineering + Context Caching first to establish your baseline quality and build your evaluation dataset.",
+        "• Use RAG when your product relies on dynamic, proprietary, or permission-scoped facts that change frequently and require verifiable source citations.",
+        "• Use Fine-Tuning (or distillation into a smaller model) when you need to teach a model a specialized output format, consistent brand voice, domain-specific syntax, or when you need to slash latency (<500ms) and per-token inference cost at scale.",
+        "### Try the Interactive Decision Matrix",
+        "Scroll down to the Interactive AI PM Workbench on this page to score your specific product constraints across 6 dimensions and export a ready-to-paste Markdown Architecture Brief for your PRD."
+      ]
+    },
+    {
       id: "from-wireframes-to-working-prototypes",
       title: "From Static PRDs to Live Code: The AI-Native PM Prototyping Stack",
       excerpt: "How product managers are using coding agents, Cursor/Antigravity, and synthetic data to validate product ideas with working software in 45 minutes instead of waiting two sprints.",
@@ -149,11 +172,95 @@ const FALLBACK_DATA = {
   ]
 };
 
+const DECISION_DIMENSIONS = [
+  {
+    id: "freshness",
+    label: "Knowledge Freshness & Volatility",
+    hint: "How often does the underlying domain data or product state change?",
+    levels: {
+      1: "Static / Rare updates",
+      2: "Weekly / Monthly syncs",
+      3: "Real-time / Hourly updates"
+    }
+  },
+  {
+    id: "grounding",
+    label: "Citation & Provenance Requirement",
+    hint: "Must outputs cite verifiable user/enterprise docs with strict access controls?",
+    levels: {
+      1: "Low (Creative / General)",
+      2: "Moderate (Helpful context)",
+      3: "Strict (Audit trail + ACLs)"
+    }
+  },
+  {
+    id: "specialization",
+    label: "Output Style, Schema, or Domain Syntax",
+    hint: "Do you need strict JSON schemas, brand voice, or proprietary domain taxonomy?",
+    levels: {
+      1: "Standard instruction following",
+      2: "Consistent schema / rubric",
+      3: "Deep domain syntax / behavior"
+    }
+  },
+  {
+    id: "latency",
+    label: "Latency SLA (Time-to-Completion)",
+    hint: "How tight is your UX latency budget for each user interaction?",
+    levels: {
+      1: "Relaxed (> 3s / Async)",
+      2: "Interactive (1–2.5s)",
+      3: "Real-Time (< 400ms)"
+    }
+  },
+  {
+    id: "volume",
+    label: "Monthly Request Scale & Unit Cost Pressure",
+    hint: "Higher scale increases the ROI of smaller fine-tuned models or aggressive caching.",
+    levels: {
+      1: "Early MVP (< 50k req/mo)",
+      2: "Growth (50k–1M req/mo)",
+      3: "High Scale (10M+ req/mo)"
+    }
+  },
+  {
+    id: "dataMaturity",
+    label: "Curated Training Data & Eval Maturity",
+    hint: "Do you have verified input/output golden pairs ready for supervised fine-tuning?",
+    levels: {
+      1: "None (0–25 examples)",
+      2: "Golden Eval Set (100–500)",
+      3: "Production Flywheel (5,000+)"
+    }
+  }
+];
+
+const DECISION_PRESETS = {
+  "enterprise-copilot": {
+    name: "Enterprise Docs Copilot",
+    values: { freshness: 3, grounding: 3, specialization: 1, latency: 2, volume: 2, dataMaturity: 2 }
+  },
+  "json-classifier": {
+    name: "High-Volume JSON / Tone Engine",
+    values: { freshness: 1, grounding: 1, specialization: 3, latency: 3, volume: 3, dataMaturity: 3 }
+  },
+  "zero-to-one-mvp": {
+    name: "0→1 AI Feature MVP",
+    values: { freshness: 1, grounding: 1, specialization: 2, latency: 2, volume: 1, dataMaturity: 1 }
+  },
+  "vertical-specialist": {
+    name: "Regulated Legal / Medical Analyst",
+    values: { freshness: 3, grounding: 3, specialization: 3, latency: 2, volume: 2, dataMaturity: 3 }
+  }
+};
+
 const state = {
   data: FALLBACK_DATA,
   activePillar: "all",
   activeFormat: "all",
-  searchQuery: ""
+  searchQuery: "",
+  activePreset: "enterprise-copilot",
+  dmValues: { ...DECISION_PRESETS["enterprise-copilot"].values }
 };
 
 async function loadData() {
@@ -171,6 +278,7 @@ async function loadData() {
 function renderAll() {
   renderPillars();
   renderPosts();
+  renderDecisionMatrix();
   renderMatrix();
 }
 
@@ -286,6 +394,235 @@ function renderPosts() {
   container.querySelectorAll(".read-post-btn").forEach((btn) => {
     btn.addEventListener("click", () => openPostModal(btn.dataset.postId));
   });
+}
+
+function evaluateArchitectures(v) {
+  // v has { freshness, grounding, specialization, latency, volume, dataMaturity } each in 1..3
+  // 1. Prompt Engineering + Context Caching
+  const promptRaw =
+    (4 - v.freshness) * 16 +
+    (4 - v.grounding) * 14 +
+    (4 - v.specialization) * 14 +
+    (4 - v.volume) * 16 +
+    (4 - v.dataMaturity) * 20 +
+    (v.latency === 2 ? 15 : v.latency === 1 ? 18 : 8);
+
+  // 2. RAG (Retrieval-Augmented Generation + Hybrid Search)
+  const ragRaw =
+    v.freshness * 24 +
+    v.grounding * 26 +
+    (4 - v.specialization) * 10 +
+    (v.latency <= 2 ? 16 : 8) +
+    (v.volume >= 2 ? 12 : 10);
+
+  // 3. Fine-Tuned Small/Open Model (LoRA / Distillation)
+  const ftRaw =
+    (4 - v.freshness) * 12 +
+    (4 - v.grounding) * 12 +
+    v.specialization * 24 +
+    v.latency * 20 +
+    v.volume * 18 +
+    v.dataMaturity * 22 -
+    (v.dataMaturity === 1 ? 28 : 0);
+
+  // 4. Hybrid: RAG + Fine-Tuned / Routed Model
+  const hybridRaw =
+    v.freshness * 17 +
+    v.grounding * 17 +
+    v.specialization * 19 +
+    v.volume * 14 +
+    v.dataMaturity * 18 +
+    (v.freshness >= 2 && v.specialization >= 2 ? 18 : 0) -
+    (v.dataMaturity === 1 ? 22 : 0);
+
+  const clampPct = (val, maxPossible) => Math.max(18, Math.min(98, Math.round((val / maxPossible) * 100)));
+
+  const results = [
+    {
+      id: "rag",
+      name: "RAG (Hybrid Search + Frontier/Mid Model)",
+      score: clampPct(ragRaw, 198),
+      timeToMvp: "1–2 Sprints",
+      unitCostProfile: "Moderate (Embedding + Retrieval + Context Tokens)",
+      primaryEvalFocus: "Retrieval Recall@K & Hallucination / Faithfulness",
+      roadmapPhase: "Start with chunking + hybrid BM25/vector search + reranker before touching model weights.",
+      summary:
+        "Best when your product depends on dynamic, proprietary, or permission-scoped knowledge and requires verifiable source citations."
+    },
+    {
+      id: "prompt",
+      name: "Prompt Engineering + Context Caching",
+      score: clampPct(promptRaw, 225),
+      timeToMvp: "1–3 Days",
+      unitCostProfile: "Low upfront; scales linearly with token volume",
+      primaryEvalFocus: "Instruction Adherence & Edge-Case Golden Dataset",
+      roadmapPhase: "Ship with structured outputs + prompt caching first to collect real production traffic.",
+      summary:
+        "Fastest 0→1 validation path when training data is scarce and knowledge is either static or fits cleanly in cached system prompts."
+    },
+    {
+      id: "finetune",
+      name: "Fine-Tuned Small Model (LoRA / Distillation)",
+      score: clampPct(ftRaw, 255),
+      timeToMvp: "3–5 Sprints",
+      unitCostProfile: "Lowest marginal cost at scale (5–15x cheaper per call)",
+      primaryEvalFocus: "Schema Validity, Regression vs. Teacher Model, Drift",
+      roadmapPhase: "Distill frontier model outputs from your golden eval set into an 8B/mini model for speed & margin.",
+      summary:
+        "Ideal when locking in specialized domain syntax, strict JSON schemas, brand tone, or sub-400ms latency at high request volume."
+    },
+    {
+      id: "hybrid",
+      name: "Hybrid Architecture (RAG + Fine-Tuned Generator)",
+      score: clampPct(hybridRaw, 248),
+      timeToMvp: "4–6+ Sprints",
+      unitCostProfile: "High initial eng investment; optimized unit margin",
+      primaryEvalFocus: "End-to-End Citation Accuracy + Domain Format Compliance",
+      roadmapPhase: "Phase 1: Prompt+RAG → Phase 2: Harvest verified traces → Phase 3: Fine-tune reader/router.",
+      summary:
+        "Combines live retrieval for up-to-the-minute grounded facts with a domain-tuned model for specialized reasoning or output structure."
+    }
+  ];
+
+  results.sort((a, b) => b.score - a.score);
+  return results;
+}
+
+function renderDecisionMatrix() {
+  const slidersContainer = document.getElementById("dm-sliders-list");
+  if (!slidersContainer) return;
+
+  slidersContainer.innerHTML = DECISION_DIMENSIONS.map((dim) => {
+    const val = state.dmValues[dim.id] || 2;
+    return `
+      <div class="dm-control-group">
+        <div class="dm-control-top">
+          <label class="dm-control-label" for="dm-slider-${dim.id}">${dim.label}</label>
+          <span class="dm-control-val" id="dm-val-${dim.id}">${dim.levels[val]}</span>
+        </div>
+        <p class="dm-control-hint">${dim.hint}</p>
+        <input
+          type="range"
+          min="1"
+          max="3"
+          step="1"
+          value="${val}"
+          class="dm-range"
+          id="dm-slider-${dim.id}"
+          data-dm-dim="${dim.id}"
+          aria-label="${dim.label}"
+        />
+        <div class="dm-scale-labels">
+          <span>1 · ${dim.levels[1]}</span>
+          <span>3 · ${dim.levels[3]}</span>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  slidersContainer.querySelectorAll(".dm-range").forEach((input) => {
+    input.addEventListener("input", (e) => {
+      const dimId = e.target.dataset.dmDim;
+      const newVal = Number(e.target.value);
+      state.dmValues[dimId] = newVal;
+      state.activePreset = "custom";
+      document.querySelectorAll("[data-dm-preset]").forEach((btn) => btn.classList.remove("active"));
+
+      const dimMeta = DECISION_DIMENSIONS.find((d) => d.id === dimId);
+      const badge = document.getElementById(`dm-val-${dimId}`);
+      if (badge && dimMeta) {
+        badge.textContent = dimMeta.levels[newVal];
+      }
+      renderDecisionResults();
+    });
+  });
+
+  renderDecisionResults();
+}
+
+function renderDecisionResults() {
+  const winnerBanner = document.getElementById("dm-winner-banner");
+  const scoresList = document.getElementById("dm-scores-list");
+  const tradeoffsGrid = document.getElementById("dm-tradeoffs-grid");
+  if (!winnerBanner || !scoresList || !tradeoffsGrid) return;
+
+  const ranked = evaluateArchitectures(state.dmValues);
+  const top = ranked[0];
+  const runnerUp = ranked[1];
+
+  winnerBanner.innerHTML = `
+    <div class="dm-winner-kicker">
+      <span>★ Recommended Architecture</span>
+      <span>${top.score}% Fit Score</span>
+    </div>
+    <div class="dm-winner-title">${top.name}</div>
+    <p class="dm-winner-summary">
+      ${top.summary} <strong>Rollout strategy:</strong> ${top.roadmapPhase}
+    </p>
+  `;
+
+  scoresList.innerHTML = ranked
+    .map(
+      (item, idx) => `
+      <div class="dm-score-row ${idx === 0 ? "is-top" : ""}">
+        <div class="dm-score-header">
+          <span class="dm-score-name">
+            ${idx === 0 ? "🏆" : `${idx + 1}.`} ${item.name}
+          </span>
+          <span class="dm-score-pct">${item.score}%</span>
+        </div>
+        <div class="dm-bar-track">
+          <div class="dm-bar-fill" style="width: ${item.score}%;"></div>
+        </div>
+        <div class="dm-score-note">${item.summary}</div>
+      </div>
+    `
+    )
+    .join("");
+
+  tradeoffsGrid.innerHTML = `
+    <div class="dm-tradeoff-box">
+      <div class="dm-tradeoff-label">Est. Time to MVP</div>
+      <div class="dm-tradeoff-val">${top.timeToMvp}</div>
+    </div>
+    <div class="dm-tradeoff-box">
+      <div class="dm-tradeoff-label">Unit Cost Trajectory</div>
+      <div class="dm-tradeoff-val">${top.unitCostProfile}</div>
+    </div>
+    <div class="dm-tradeoff-box">
+      <div class="dm-tradeoff-label">Primary Eval Metric</div>
+      <div class="dm-tradeoff-val">${top.primaryEvalFocus}</div>
+    </div>
+    <div class="dm-tradeoff-box">
+      <div class="dm-tradeoff-label">Runner-Up Alternative</div>
+      <div class="dm-tradeoff-val">${runnerUp.name} (${runnerUp.score}%)</div>
+    </div>
+  `;
+}
+
+function generateMarkdownBrief() {
+  const ranked = evaluateArchitectures(state.dmValues);
+  const top = ranked[0];
+  const lines = [
+    `## AI Architecture Decision Brief: ${top.name} (${top.score}% Fit)`,
+    ``,
+    `### 1. Product Constraints Profile`,
+    ...DECISION_DIMENSIONS.map((d) => `- **${d.label}:** ${d.levels[state.dmValues[d.id]]} (${state.dmValues[d.id]}/3)`),
+    ``,
+    `### 2. Recommended Architecture & Rollout`,
+    `- **Primary Recommendation:** **${top.name}** (${top.score}% fit)`,
+    `- **Why It Wins:** ${top.summary}`,
+    `- **Recommended Phased Rollout:** ${top.roadmapPhase}`,
+    `- **Estimated Time to MVP:** ${top.timeToMvp}`,
+    `- **Unit Economics Profile:** ${top.unitCostProfile}`,
+    `- **Primary Evaluation Focus:** ${top.primaryEvalFocus}`,
+    ``,
+    `### 3. Architecture Scorecard Comparison`,
+    ...ranked.map((r, i) => `${i + 1}. **${r.name}** — ${r.score}% fit`),
+    ``,
+    `*Generated via the PM × AI Interactive Architecture Workbench (https://pawandhir-stack.github.io/pm-x-ai/)*`
+  ];
+  return lines.join("\n");
 }
 
 function renderMatrix() {
@@ -437,6 +774,53 @@ function setupInteractions() {
         status.textContent = "✓ Subscribed! You'll receive new essays, case studies, and YouTube drops.";
       }
       form.reset();
+    });
+  }
+
+  // Decision Matrix preset buttons
+  document.querySelectorAll("[data-dm-preset]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const presetKey = btn.dataset.dmPreset;
+      const preset = DECISION_PRESETS[presetKey];
+      if (!preset) return;
+      state.activePreset = presetKey;
+      state.dmValues = { ...preset.values };
+      document.querySelectorAll("[data-dm-preset]").forEach((b) => {
+        b.classList.toggle("active", b.dataset.dmPreset === presetKey);
+      });
+      renderDecisionMatrix();
+    });
+  });
+
+  // Decision Matrix reset button
+  const dmResetBtn = document.getElementById("dm-reset-btn");
+  if (dmResetBtn) {
+    dmResetBtn.addEventListener("click", () => {
+      state.activePreset = "enterprise-copilot";
+      state.dmValues = { ...DECISION_PRESETS["enterprise-copilot"].values };
+      document.querySelectorAll("[data-dm-preset]").forEach((b) => {
+        b.classList.toggle("active", b.dataset.dmPreset === "enterprise-copilot");
+      });
+      renderDecisionMatrix();
+    });
+  }
+
+  // Decision Matrix copy Markdown brief button
+  const dmCopyBtn = document.getElementById("dm-copy-prd-btn");
+  if (dmCopyBtn) {
+    dmCopyBtn.addEventListener("click", async () => {
+      const markdown = generateMarkdownBrief();
+      const statusEl = document.getElementById("dm-copy-status");
+      try {
+        await navigator.clipboard.writeText(markdown);
+        if (statusEl) {
+          statusEl.textContent = "✓ Copied Markdown Architecture Brief to clipboard!";
+        }
+      } catch (_) {
+        if (statusEl) {
+          statusEl.textContent = "✓ Brief generated (select & copy from console or HTTPS page).";
+        }
+      }
     });
   }
 }

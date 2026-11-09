@@ -71,6 +71,29 @@
       ]
     },
     {
+      "id": "prompting-vs-rag-vs-finetuning-playbook",
+      "title": "Prompting vs. RAG vs. Fine-Tuning: A Product Manager's Architecture Playbook",
+      "excerpt": "How to avoid the #1 costly mistake in AI product development: fine-tuning a model when you actually needed Retrieval-Augmented Generation (or a better prompt + eval loop).",
+      "pillar": "best-practices",
+      "pillarLabel": "Best Practices",
+      "format": "article",
+      "formatLabel": "Interactive Guide + Playbook",
+      "date": "Nov 2026",
+      "readTime": "8 min read",
+      "featured": false,
+      "crossPosted": ["LinkedIn", "Substack", "GitHub"],
+      "tags": ["RAG", "Fine-Tuning", "Architecture", "Unit Economics"],
+      "body": [
+        "One of the highest-leverage decisions an AI Product Manager makes with engineering is choosing the right adaptation pattern: In-Context Prompting, Retrieval-Augmented Generation (RAG), or Fine-Tuning.",
+        "### The Golden Rule: RAG is for Facts, Fine-Tuning is for Form",
+        "• Use Prompt Engineering + Context Caching first to establish your baseline quality and build your evaluation dataset.",
+        "• Use RAG when your product relies on dynamic, proprietary, or permission-scoped facts that change frequently and require verifiable source citations.",
+        "• Use Fine-Tuning (or distillation into a smaller model) when you need to teach a model a specialized output format, consistent brand voice, domain-specific syntax, or when you need to slash latency (<500ms) and per-token inference cost at scale.",
+        "### Try the Interactive Decision Matrix",
+        "Scroll down to the Interactive AI PM Workbench on this page to score your specific product constraints across 6 dimensions and export a ready-to-paste Markdown Architecture Brief for your PRD."
+      ]
+    },
+    {
       "id": "from-wireframes-to-working-prototypes",
       "title": "From Static PRDs to Live Code: The AI-Native PM Prototyping Stack",
       "excerpt": "How product managers are using coding agents, Cursor/Antigravity, and synthetic data to validate product ideas with working software in 45 minutes instead of waiting two sprints.",

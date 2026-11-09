@@ -1,5 +1,7 @@
 # PM × AI — How Product Management is Evolving with AI
 
+🌐 **Live Publication & Interactive Workbench:** **[pawandhir-stack.github.io/pm-x-ai](https://pawandhir-stack.github.io/pm-x-ai/)**
+
 An open-source editorial publication and interactive field guide exploring how Product Management is evolving in the age of Artificial Intelligence.
 
 Built for **existing Product Managers**, **aspiring PMs**, and **builders** interested in the intersection of product craft and AI tooling.
@@ -23,6 +25,7 @@ This publication is organized around four core pillars:
 
 This project is intentionally engineered with a **zero-dependency, fast, maintainable architecture** that deploys for **$0/month** via GitHub Pages:
 
+- **Interactive AI Architecture Decision Matrix (`#decision-matrix`):** A real-time **Prompting vs. RAG vs. Fine-Tuning vs. Hybrid** scoring engine across 6 product dimensions (Knowledge Freshness, Citation/Grounding, Output Specialization, Latency SLA, Request Scale, and Eval/Training Data Maturity) with 1-click preset scenarios and a **Markdown Architecture Brief exporter** for PRDs.
 - **Structured Data-Driven Content Engine (`data/content.json`):** Decouples editorial content (essays, YouTube video embeds, visual teardowns, and the PM Skill Evolution Matrix) from presentation logic.
 - **Multi-Format Media Support:** Built-in filtering by **Pillar**, **Format** (`Text Essay`, `YouTube / Video`, `Visual Teardown`), and **Instant Keyword Search**, plus cross-syndication badges (`YouTube`, `LinkedIn`, `Substack`, `X`).
 - **Modern Web Standards:**

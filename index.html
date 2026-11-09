@@ -42,6 +42,7 @@
       <ul class="nav-links">
         <li><a href="#pillars">4 Pillars</a></li>
         <li><a href="#content-feed">Essays &amp; Videos</a></li>
+        <li><a href="#decision-matrix">Build vs. RAG vs. Fine-Tune</a></li>
         <li><a href="#skill-matrix">PM × AI Matrix</a></li>
         <li><a href="#subscribe">Newsletter</a></li>
       </ul>
@@ -76,7 +77,7 @@
 
           <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
             <a href="#content-feed" class="btn btn-primary">Explore Latest Issues →</a>
-            <a href="#skill-matrix" class="btn btn-outline">View AI PM Skill Matrix</a>
+            <a href="#decision-matrix" class="btn btn-outline">Interactive: RAG vs. Fine-Tune Matrix</a>
           </div>
         </div>
 
@@ -164,6 +165,78 @@
 
         <div class="posts-grid" id="posts-grid">
           <!-- Populated by scripts/app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Tool: Build vs. Fine-Tune vs. RAG Decision Matrix -->
+    <section class="section" id="decision-matrix">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="section-kicker">Interactive AI PM Workbench</div>
+            <h2 class="section-title">Prompting vs. RAG vs. Fine-Tuning Decision Matrix</h2>
+          </div>
+          <p style="color: var(--text-secondary); font-size: 0.92rem; max-width: 52ch;">
+            Adjust your product's constraints below—or load a real-world preset—to score which AI architecture fits your latency, data freshness, grounding, and unit-economics requirements.
+          </p>
+        </div>
+
+        <!-- Preset Scenario Bar -->
+        <div class="dm-presets" role="group" aria-label="Load preset product scenario">
+          <span class="dm-preset-label">Load Scenario Preset:</span>
+          <button type="button" class="filter-tab active" data-dm-preset="enterprise-copilot">
+            Enterprise Docs Copilot
+          </button>
+          <button type="button" class="filter-tab" data-dm-preset="json-classifier">
+            High-Volume JSON / Tone Engine
+          </button>
+          <button type="button" class="filter-tab" data-dm-preset="zero-to-one-mvp">
+            0→1 AI Feature MVP
+          </button>
+          <button type="button" class="filter-tab" data-dm-preset="vertical-specialist">
+            Regulated Legal / Medical Analyst
+          </button>
+        </div>
+
+        <div class="dm-workbench">
+          <!-- Left Column: 6 Product Constraint Sliders -->
+          <div class="dm-controls-card">
+            <div class="dm-card-header">
+              <h3>1. Product &amp; Technical Constraints</h3>
+              <button type="button" class="btn btn-outline" id="dm-reset-btn" style="padding: 0.28rem 0.65rem; font-size: 0.76rem;">
+                Reset
+              </button>
+            </div>
+
+            <div class="dm-sliders-list" id="dm-sliders-list">
+              <!-- Populated and bound by scripts/app.js -->
+            </div>
+          </div>
+
+          <!-- Right Column: Live Architecture Scorecard & PRD Export -->
+          <div class="dm-results-card">
+            <div class="dm-winner-banner" id="dm-winner-banner">
+              <!-- Populated by scripts/app.js -->
+            </div>
+
+            <div class="dm-scores-list" id="dm-scores-list" aria-live="polite">
+              <!-- Populated by scripts/app.js -->
+            </div>
+
+            <div class="dm-tradeoffs-grid" id="dm-tradeoffs-grid">
+              <!-- Populated by scripts/app.js -->
+            </div>
+
+            <div class="dm-actions-bar">
+              <div style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-muted);" id="dm-copy-status">
+                Ready to export architecture rationale for your PRD.
+              </div>
+              <button type="button" class="btn btn-primary" id="dm-copy-prd-btn">
+                ⎘ Copy Architecture Brief (Markdown)
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
