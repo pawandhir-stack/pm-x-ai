@@ -1,0 +1,178 @@
+{
+  "site": {
+    "name": "PM × AI",
+    "tagline": "How Product Management is Evolving in the Age of AI",
+    "subtitle": "Field notes, frameworks, case studies, and conversations at the intersection of product craft and artificial intelligence.",
+    "author": "Product & AI Lab",
+    "social": {
+      "youtube": "https://youtube.com",
+      "linkedin": "https://linkedin.com",
+      "github": "https://github.com",
+      "x": "https://x.com"
+    }
+  },
+  "pillars": [
+    {
+      "id": "skills-tools",
+      "number": "01",
+      "title": "PM Skills × AI Tools",
+      "description": "How core product workflows—discovery, prototyping, PRDs, and analytics—transform with AI copilots and agents.",
+      "badge": "Core Craft"
+    },
+    {
+      "id": "best-practices",
+      "number": "02",
+      "title": "Best Practices & Playbooks",
+      "description": "Actionable guides on AI evals, non-deterministic UX, prompt engineering for PMs, and shipping with confidence.",
+      "badge": "Frameworks"
+    },
+    {
+      "id": "case-studies",
+      "number": "03",
+      "title": "AI Product Case Studies",
+      "description": "Teardowns and architectural deep dives into how leading product teams design, measure, and scale AI features.",
+      "badge": "Teardowns"
+    },
+    {
+      "id": "interviews",
+      "number": "04",
+      "title": "Guest Interviews",
+      "description": "Candid video and written conversations with AI PMs, founders, and researchers building the next wave of products.",
+      "badge": "Conversations"
+    }
+  ],
+  "posts": [
+    {
+      "id": "evals-are-the-new-prd",
+      "title": "Why Evals Are the New PRD: Specifying Non-Deterministic Products",
+      "excerpt": "Traditional PRDs assume deterministic if-then logic. When building with LLMs, your evaluation dataset is your true product specification. Here is a practical framework for writing Eval-Driven PRDs.",
+      "pillar": "best-practices",
+      "pillarLabel": "Best Practices",
+      "format": "article",
+      "formatLabel": "Essay + Framework",
+      "date": "Nov 2026",
+      "readTime": "7 min read",
+      "featured": true,
+      "crossPosted": ["LinkedIn", "Substack"],
+      "tags": ["Evals", "PRD", "Product Strategy"],
+      "heroVisual": {
+        "type": "diagram",
+        "caption": "From deterministic acceptance criteria to continuous evaluation loops."
+      },
+      "body": [
+        "For the last fifteen years, Product Managers wrote specifications around deterministic states: Given state A, when the user clicks B, the system returns C. With foundation models and agentic workflows, that contract breaks.",
+        "### The Shift from Rules to Distributions",
+        "An AI feature doesn't pass or fail a single binary test—it performs across a probability distribution of user intents, edge cases, and latency constraints. If you only write prose user stories, engineering and product end up debating anecdotal prompt outputs instead of shipping systematically.",
+        "### The 4-Part AI Product Spec",
+        "1. **Golden Dataset (25–50 real scenarios):** Before writing code, curate examples of ideal inputs, messy real-world inputs, and adversarial inputs alongside the expected rubric.",
+        "2. **Scoring Rubric (Code + LLM-as-Judge):** Define hard constraints (JSON schema validity, latency < 1.5s, zero PII leakage) and qualitative dimensions (tone, groundedness, actionability).",
+        "3. **Fallback & UX Guardrails:** What happens when confidence is low? Design graceful degradation before launch.",
+        "4. **Unit Economics Ceiling:** Token cost per successful task completion—not per API call."
+      ]
+    },
+    {
+      "id": "from-wireframes-to-working-prototypes",
+      "title": "From Static PRDs to Live Code: The AI-Native PM Prototyping Stack",
+      "excerpt": "How product managers are using coding agents, Cursor/Antigravity, and synthetic data to validate product ideas with working software in 45 minutes instead of waiting two sprints.",
+      "pillar": "skills-tools",
+      "pillarLabel": "PM Skills × AI Tools",
+      "format": "video",
+      "formatLabel": "Video + Walkthrough",
+      "date": "Nov 2026",
+      "readTime": "14 min watch",
+      "featured": false,
+      "youtubeId": "M7lc1UVf-VE",
+      "crossPosted": ["YouTube", "LinkedIn"],
+      "tags": ["Prototyping", "AI Coding", "Workflow"],
+      "heroVisual": {
+        "type": "video",
+        "caption": "Full workflow walkthrough: Turning customer interview notes into an interactive web prototype."
+      },
+      "body": [
+        "The bottleneck in product discovery used to be translating a 6-page document into something a customer could actually react to. Today, an AI-fluent PM can go from raw customer call transcripts to an interactive coded prototype in a single afternoon.",
+        "### What We Cover in This Video Walkthrough",
+        "- **Step 1: Synthesizing Unstructured Discovery:** Extracting friction points across 20 user interviews without losing nuance.",
+        "- **Step 2: Rapid Interactive Prototyping:** Pairing with an AI coding agent to build a realistic front-end flow with real state.",
+        "- **Step 3: Live Customer Testing:** Why users give 10x more honest feedback when clicking a working prototype vs. viewing static slides."
+      ]
+    },
+    {
+      "id": "case-study-copilot-ux-patterns",
+      "title": "Case Study: Why Inline Diffs Beat Chat Sidebars in B2B Workflows",
+      "excerpt": "A visual teardown of 12 enterprise AI products showing why the 'slap a chatbot on the right side' era is ending—and the ambient UX patterns replacing it.",
+      "pillar": "case-studies",
+      "pillarLabel": "Case Studies",
+      "format": "visual",
+      "formatLabel": "Visual Teardown",
+      "date": "Oct 2026",
+      "readTime": "6 min read",
+      "featured": false,
+      "crossPosted": ["YouTube", "X", "LinkedIn"],
+      "tags": ["UX Patterns", "B2B AI", "Case Study"],
+      "heroVisual": {
+        "type": "gallery",
+        "caption": "Comparing prompt-heavy chat sidebars vs. context-aware inline actions across 12 products."
+      },
+      "body": [
+        "When generative AI first entered SaaS products, nearly every team shipped the exact same interface: a collapsible right-hand chat drawer that forced users to become prompt engineers.",
+        "### Key Findings from Our 12-Product Teardown",
+        "- **Blank-Canvas Paralysis:** 68% of enterprise users abandon open-ended chat boxes after their second session because typing context takes longer than doing the task manually.",
+        "- **The Winner—Ambient Next-Action Previews:** High-retention AI products pre-compute the likely action in the background and present a one-click `Tab-to-Accept` or inline diff directly inside the user's canvas.",
+        "- **Trust Through Provenance:** Showing *why* the model suggested an action (linking to the source ticket, doc, or metric) increased acceptance rates by 2.4x."
+      ]
+    },
+    {
+      "id": "interview-hiring-ai-pms",
+      "title": "Guest Interview: What Hiring Managers Actually Look for in AI Product Managers",
+      "excerpt": "We sat down with VP of Product leaders to unpack the difference between 'AI theater' on a resume and genuine AI product sense—plus how aspiring PMs can build proof-of-work.",
+      "pillar": "interviews",
+      "pillarLabel": "Guest Interviews",
+      "format": "video",
+      "formatLabel": "Guest Interview (Video + Transcript)",
+      "date": "Oct 2026",
+      "readTime": "22 min watch",
+      "featured": false,
+      "youtubeId": "dQw4w9WgXcQ",
+      "crossPosted": ["YouTube", "Spotify", "LinkedIn"],
+      "tags": ["Career", "Interviews", "Hiring"],
+      "heroVisual": {
+        "type": "interview",
+        "caption": "Episode #01 — Building proof of work in public vs. collecting certifications."
+      },
+      "body": [
+        "In our inaugural guest interview, we explore the #1 question aspiring and transitioning Product Managers ask: *How do I prove I can build AI products if my current company moves slowly?*",
+        "### Highlights from the Conversation",
+        "**Q: What separates a top 5% AI PM candidate right now?**",
+        "\"They don't just talk about models; they show me something they built or evaluated over a weekend. When a candidate shares a GitHub repo or a live tool they shipped—and can explain where the model failed and how they fixed the prompt or UX—that immediately puts them at the top of the stack.\"",
+        "**Q: Do PMs need to be machine learning engineers?**",
+        "\"No. You don't need to write custom CUDA kernels. You *do* need intuition for context windows, retrieval vs. fine-tuning trade-offs, latency budgets, and how to design an evaluation harness.\""
+      ]
+    }
+  ],
+  "toolMatrix": [
+    {
+      "stage": "01. Discovery & Synthesis",
+      "traditional": "Manual tagging in spreadsheets, static affinity maps",
+      "aiAugmented": "Automated theme clustering across transcripts + citation-backed insight search",
+      "pmSkillShift": "From summarizing notes → Asking sharper investigative questions & validating edge cases"
+    },
+    {
+      "stage": "02. Spec & Prototyping",
+      "traditional": "10-page narrative PRD + waiting weeks for design mocks",
+      "aiAugmented": "Working coded prototypes + Eval dataset + concise architectural constraints",
+      "pmSkillShift": "From describing screens → Designing interactive flows & failure-mode guardrails"
+    },
+    {
+      "stage": "03. Quality & Shipping",
+      "traditional": "Binary QA sign-off before launch",
+      "aiAugmented": "Automated LLM-as-judge evals, shadow deployments, & cost/latency telemetry",
+      "pmSkillShift": "From one-time UAT → Continuous quality calibration & unit-economics management"
+    },
+    {
+      "stage": "04. Growth & Iteration",
+      "traditional": "Funnel analytics only (clicks & pageviews)",
+      "aiAugmented": "Semantic conversation analytics, thumbs-up/down root-cause clustering, implicit acceptance rate",
+      "pmSkillShift": "From funnel optimization → Closing the data flywheel loop"
+    }
+  ]
+}

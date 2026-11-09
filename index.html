@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PM × AI — How Product Management is Evolving with AI</title>
+  <meta
+    name="description"
+    content="Exploring the intersection of Product Management skills and AI tools: best practices, real-world case studies, visual teardowns, and guest interviews."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./styles/main.css" />
+</head>
+<body>
+  <!-- Top Status / Builder Proof Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <div>
+        <span class="status-dot"></span>
+        <span>OPEN-SOURCE PUBLICATION · BUILT &amp; SHIPPED WITH AI</span>
+      </div>
+      <div>
+        <span>TEXT · VISUAL TEARDOWNS · YOUTUBE · LINKEDIN</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Navigation -->
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a href="#" class="brand">
+        <span class="brand-mark">P×A</span>
+        <span class="brand-text">PM × AI</span>
+        <span class="brand-sub">The Evolving Craft of Product</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#pillars">4 Pillars</a></li>
+        <li><a href="#content-feed">Essays &amp; Videos</a></li>
+        <li><a href="#skill-matrix">PM × AI Matrix</a></li>
+        <li><a href="#subscribe">Newsletter</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme" title="Toggle Light/Dark Theme">
+          ☾
+        </button>
+        <a href="#subscribe" class="btn btn-primary">Subscribe</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Editorial Hero -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Publication &amp; Field Guide</span>
+          <h1>
+            How Product Management is evolving <em>with AI</em>.
+          </h1>
+          <p class="hero-lead">
+            A living handbook for current and aspiring Product Managers—unpacking the intersection of core PM craft and AI tools, practical playbooks, product case studies, and candid guest interviews.
+          </p>
+
+          <div class="hero-formats">
+            <span class="format-pill">✦ Deep-Dive Essays</span>
+            <span class="format-pill">▶ YouTube Walkthroughs &amp; Interviews</span>
+            <span class="format-pill">◈ Visual UX Teardowns</span>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <a href="#content-feed" class="btn btn-primary">Explore Latest Issues →</a>
+            <a href="#skill-matrix" class="btn btn-outline">View AI PM Skill Matrix</a>
+          </div>
+        </div>
+
+        <!-- Featured Lead Issue Card -->
+        <aside class="featured-card" aria-label="Featured Essay">
+          <div class="featured-label">
+            <span>★ Featured Blueprint</span>
+            <span>7 Min Read</span>
+          </div>
+          <h2>Why Evals Are the New PRD: Specifying Non-Deterministic Products</h2>
+          <p>
+            Traditional PRDs assume deterministic if-then rules. When building with LLMs and agents, your evaluation dataset is your true product spec.
+          </p>
+          <div class="diagram-preview">
+            <div style="color: var(--text-muted); margin-bottom: 0.45rem;">AI SPEC LOOP</div>
+            <div class="diagram-flow">
+              <span class="diagram-step">1. Golden Dataset</span>
+              <span>→</span>
+              <span class="diagram-step">2. Rubric &amp; Judge</span>
+              <span>→</span>
+              <span class="diagram-step">3. UX Guardrails</span>
+            </div>
+          </div>
+          <button class="btn btn-outline" id="hero-featured-btn" style="width: 100%; justify-content: center;">
+            Read Full Blueprint →
+          </button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 4 Editorial Pillars -->
+    <section class="section" id="pillars">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="section-kicker">Editorial Architecture</div>
+            <h2 class="section-title">Four Pillars of the AI-Native PM</h2>
+          </div>
+          <p style="color: var(--text-secondary); font-size: 0.92rem; max-width: 44ch;">
+            Click any pillar below to filter the essays, visual teardowns, and video interviews in the feed.
+          </p>
+        </div>
+
+        <div class="pillars-grid" id="pillars-grid">
+          <!-- Populated by scripts/app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Multi-Format Content Hub (Text, Photos/Visuals, YouTube Video) -->
+    <section class="section" id="content-feed">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="section-kicker">Multi-Format Feed</div>
+            <h2 class="section-title">Latest Essays, Case Studies &amp; Video Sessions</h2>
+          </div>
+        </div>
+
+        <div class="filter-toolbar">
+          <div class="filter-tabs" role="tablist" aria-label="Filter by Pillar">
+            <button class="filter-tab active" data-filter-pillar="all">All Pillars</button>
+            <button class="filter-tab" data-filter-pillar="skills-tools">01 · PM Skills × AI Tools</button>
+            <button class="filter-tab" data-filter-pillar="best-practices">02 · Best Practices</button>
+            <button class="filter-tab" data-filter-pillar="case-studies">03 · Case Studies</button>
+            <button class="filter-tab" data-filter-pillar="interviews">04 · Guest Interviews</button>
+          </div>
+
+          <div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">
+            <div class="filter-tabs" aria-label="Filter by Media Format">
+              <button class="filter-tab active" data-filter-format="all">All Formats</button>
+              <button class="filter-tab" data-filter-format="article">✦ Text</button>
+              <button class="filter-tab" data-filter-format="video">▶ Video / YouTube</button>
+              <button class="filter-tab" data-filter-format="visual">◈ Visual / Photos</button>
+            </div>
+            <input
+              type="search"
+              id="search-input"
+              class="search-input"
+              placeholder="Search topics (e.g. evals, prototyping)..."
+              aria-label="Search posts"
+            />
+          </div>
+        </div>
+
+        <div class="posts-grid" id="posts-grid">
+          <!-- Populated by scripts/app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Reference: How PM Skills Evolve with AI -->
+    <section class="section" id="skill-matrix">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="section-kicker">Interactive Reference</div>
+            <h2 class="section-title">The Product Lifecycle: Before &amp; After AI</h2>
+          </div>
+          <p style="color: var(--text-secondary); font-size: 0.92rem; max-width: 48ch;">
+            How day-to-day product management responsibilities shift when AI tools and foundation models enter the stack.
+          </p>
+        </div>
+
+        <div class="matrix-table-wrap">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>Lifecycle Stage</th>
+                <th>Traditional PM Workflow</th>
+                <th>AI-Augmented Workflow</th>
+                <th>Core PM Skill Evolution</th>
+              </tr>
+            </thead>
+            <tbody id="matrix-tbody">
+              <!-- Populated by scripts/app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter & Multi-Channel Syndication CTA -->
+    <section class="section" id="subscribe">
+      <div class="container">
+        <div class="newsletter-box">
+          <div>
+            <div class="section-kicker">Join the Community</div>
+            <h2 class="section-title" style="margin-bottom: 0.65rem;">
+              Get new AI PM case studies, frameworks &amp; interviews first.
+            </h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">
+              Every issue includes practical breakdowns you can apply immediately—cross-posted with companion walkthroughs on YouTube and LinkedIn.
+            </p>
+          </div>
+          <div>
+            <form class="newsletter-form" id="newsletter-form">
+              <input
+                type="email"
+                required
+                placeholder="you@company.com"
+                aria-label="Email address"
+              />
+              <button type="submit" class="btn btn-primary">Subscribe Free</button>
+            </form>
+            <p
+              id="newsletter-status"
+              style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-muted); margin-top: 0.6rem;"
+            >
+              Zero spam. Unsubscribe anytime. Ready to connect to Substack, Beehiiv, or Buttondown.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Native HTML5 Dialog Modal for Reading Essays & Watching Videos -->
+  <dialog class="reader-modal" id="reader-modal">
+    <div class="modal-header">
+      <span style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted);">
+        PM × AI Reader
+      </span>
+      <button class="btn btn-outline" id="close-modal-btn" style="padding: 0.3rem 0.7rem;">
+        ✕ Close
+      </button>
+    </div>
+    <div class="modal-body" id="modal-content"></div>
+  </dialog>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>PM × AI</strong> — Exploring how Product Management is evolving with AI.
+      </div>
+      <div style="display: flex; gap: 1.25rem; font-family: var(--font-mono); font-size: 0.78rem;">
+        <a href="https://youtube.com" target="_blank" rel="noopener" style="color: inherit;">YouTube ↗</a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener" style="color: inherit;">LinkedIn ↗</a>
+        <a href="https://github.com" target="_blank" rel="noopener" style="color: inherit;">GitHub Repo ↗</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./scripts/app.js"></script>
+</body>
+</html>
