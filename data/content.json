@@ -52,7 +52,7 @@
       "formatLabel": "Essay + Playbook",
       "date": "Nov 2026",
       "readTime": "6 min read",
-      "featured": false,
+      "featured": true,
       "crossPosted": ["LinkedIn", "Substack"],
       "tags": ["PRD", "Product Strategy", "Specification", "Workflow"],
       "body": [
@@ -97,7 +97,7 @@
       "formatLabel": "Essay + Framework",
       "date": "Nov 2026",
       "readTime": "7 min read",
-      "featured": true,
+      "featured": false,
       "crossPosted": ["LinkedIn", "Substack"],
       "tags": ["Evals", "PRD", "Product Strategy"],
       "heroVisual": {

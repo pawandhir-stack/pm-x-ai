@@ -40,7 +40,7 @@ const FALLBACK_DATA = {
       formatLabel: "Essay + Playbook",
       date: "Nov 2026",
       readTime: "6 min read",
-      featured: false,
+      featured: true,
       crossPosted: ["LinkedIn", "Substack"],
       tags: ["PRD", "Product Strategy", "Specification", "Workflow"],
       body: [
@@ -85,7 +85,7 @@ const FALLBACK_DATA = {
       formatLabel: "Essay + Framework",
       date: "Nov 2026",
       readTime: "7 min read",
-      featured: true,
+      featured: false,
       crossPosted: ["LinkedIn", "Substack"],
       tags: ["Evals", "PRD", "Product Strategy"],
       body: [
@@ -796,7 +796,7 @@ function setupInteractions() {
   // Featured hero button
   const featuredBtn = document.getElementById("hero-featured-btn");
   if (featuredBtn) {
-    featuredBtn.addEventListener("click", () => openPostModal("evals-are-the-new-prd"));
+    featuredBtn.addEventListener("click", () => openPostModal("hollow-spec-crisis-ai-prds"));
   }
 
   // Modal close
